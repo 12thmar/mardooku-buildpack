@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Install dependencies with Pip.
+puts-step "Installing requirements with pip"
+
+set +e
+pip install -r $BUILD_DIR/requirements.txt --exists-action=w --src=/app/.heroku/src --disable-pip-version-check --no-cache-dir 2>&1 | tee $WARNINGS_LOG | cleanup | indent
+PIP_STATUS="${PIPESTATUS[0]}"
+set -e
+
+if [[ ! $PIP_STATUS -eq 0 ]]; then
+   exit 1
+fi
+
+
+# Smart Requirements handling
+cp requirements.txt .heroku/python/requirements-declared.txt
+pip freeze --disable-pip-version-check > .heroku/python/requirements-installed.txt
+
+echo

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Build Path: /app/.heroku/python/
+
+OUT_PREFIX=$1
+
+PYTHON_VERSION=3.6.3
+
+echo "-----> Building Python ${PYTHON_VERSION}"
+curl -L https://python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz | tar xz
+pushd Python-${PYTHON_VERSION}
+./configure --prefix=${OUT_PREFIX}
+make -s
+make install -s
+popd
+
+ln $OUT_PREFIX/bin/python3 $OUT_PREFIX/bin/python
+ln $OUT_PREFIX/bin/pip3 $OUT_PREFIX/bin/pip
