@@ -1,6 +1,7 @@
 FROM heroku/heroku:16-build
 
 WORKDIR /app
+
 ENV WORKSPACE_DIR="/app/workspace" \
   S3_BUCKET="odooku" \
   S3_PREFIX="heroku-16/"
